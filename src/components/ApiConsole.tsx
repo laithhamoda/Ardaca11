@@ -26,7 +26,12 @@ import {
 } from "lucide-react";
 import { apiDocumentation } from "../data";
 
-export default function ApiConsole() {
+interface ApiConsoleProps {
+  lang?: "en" | "ar";
+}
+
+export default function ApiConsole({ lang = "en" }: ApiConsoleProps) {
+  const isRtl = lang === "ar";
   const [activeTab, setActiveTab] = useState<"sandbox" | "handshake" | "security_checker" | "policy">("sandbox");
   const [selectedEndpoint, setSelectedEndpoint] = useState(0);
 
@@ -102,7 +107,11 @@ export default function ApiConsole() {
   };
 
   return (
-    <div id="extended_api_console" className="text-zinc-100 p-4 md:p-8 max-w-7xl mx-auto space-y-8 font-sans transition-all">
+    <div 
+      id="extended_api_console" 
+      dir={isRtl ? "rtl" : "ltr"}
+      className={`text-zinc-100 p-4 md:p-8 max-w-7xl mx-auto space-y-8 font-sans transition-all ${isRtl ? "rtl text-right" : "ltr text-left"}`}
+    >
       
       {/* Visual Ambient Glow Elements */}
       <div className="absolute top-0 right-1/4 w-[380px] h-[380px] bg-emerald-500/5 rounded-full filter blur-[120px] pointer-events-none" />

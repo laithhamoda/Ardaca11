@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Building, Users, Activity, PenTool, Layout, Layers, Terminal, Truck, Settings, Bell, ChevronDown, CheckCircle2, ShieldCheck, Sparkles, Languages, Globe } from "lucide-react";
 import { Project, Quotation, SubInquiry, Bid, ProductCatalogItem, AuditLog, KYCDetails } from "./types";
 import {
@@ -11,20 +11,21 @@ import {
   mockChats
 } from "./data";
 
-// Sub-components
-import LandingPage from "./components/LandingPage";
-import KycRegister from "./components/KycRegister";
-import ClientDashboard from "./components/ClientDashboard";
-import ConsultantDashboard from "./components/ConsultantDashboard";
-import ContractorDashboard from "./components/ContractorDashboard";
-import SupplierDashboard from "./components/SupplierDashboard";
-import ProjectDetail from "./components/ProjectDetail";
-import CompareQuotations from "./components/CompareQuotations";
-import QuotationBuilder from "./components/QuotationBuilder";
-import CreateProject from "./components/CreateProject";
-import ApiConsole from "./components/ApiConsole";
-import SolutionsPage from "./components/SolutionsPage";
-import ResourcesPage from "./components/ResourcesPage";
+// Sub-components are dynamically imported to dramatically optimize bundle splitting and Lighthouse LCP
+const LandingPage = React.lazy(() => import("./components/LandingPage"));
+const KycRegister = React.lazy(() => import("./components/KycRegister"));
+const ClientDashboard = React.lazy(() => import("./components/ClientDashboard"));
+const ConsultantDashboard = React.lazy(() => import("./components/ConsultantDashboard"));
+const ContractorDashboard = React.lazy(() => import("./components/ContractorDashboard"));
+const SupplierDashboard = React.lazy(() => import("./components/SupplierDashboard"));
+const ProjectDetail = React.lazy(() => import("./components/ProjectDetail"));
+const CompareQuotations = React.lazy(() => import("./components/CompareQuotations"));
+const QuotationBuilder = React.lazy(() => import("./components/QuotationBuilder"));
+const CreateProject = React.lazy(() => import("./components/CreateProject"));
+const ApiConsole = React.lazy(() => import("./components/ApiConsole"));
+const SolutionsPage = React.lazy(() => import("./components/SolutionsPage"));
+const ResourcesPage = React.lazy(() => import("./components/ResourcesPage"));
+
 import { NavBar } from "./components/ui/NavBar";
 import { Footer } from "./components/ui/Footer";
 
@@ -180,9 +181,32 @@ export default function App() {
               onClick={() => setActiveTab("landing")}
               className="flex items-center gap-2 cursor-pointer group"
             >
-              <div className="h-6 w-6 bg-gradient-to-r from-[#C8973A] to-[#E0BA67] rounded-md flex items-center justify-center text-zinc-950 font-bold text-xs shadow-md shadow-brand-gold/15">
-                {lang === 'ar' ? 'ب' : 'B'}
-              </div>
+              <svg 
+                className="h-7 w-7 text-zinc-300 transition-transform duration-300 group-hover:scale-105 shrink-0" 
+                viewBox="0 0 500 500" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="app-gold" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#A3712C" />
+                    <stop offset="30%" stopColor="#E4BA68" />
+                    <stop offset="70%" stopColor="#F5D996" />
+                    <stop offset="100%" stopColor="#C2913F" />
+                  </linearGradient>
+                </defs>
+                {/* 4 Gold Pillars */}
+                <path d="M 115,370 L 115,250 L 145,195 L 145,370 Z" fill="url(#app-gold)" />
+                <path d="M 165,320 L 165,190 L 195,135 L 195,320 Z" fill="url(#app-gold)" />
+                <path d="M 215,270 L 215,130 L 245,75 L 245,270 Z" fill="url(#app-gold)" />
+                <path d="M 263,260 L 263,70 L 295,15 L 295,260 Z" fill="url(#app-gold)" />
+                {/* Navy Swirl styled in zinc-300 silver on dark header background */}
+                <path d="M 30,460 C 130,420 220,330 312,272 C 255,275 220,290 190,320 C 150,360 100,410 30,460 Z" fill="currentColor" />
+                {/* Navy Right Leg */}
+                <path d="M 312,135 L 365,135 L 475,445 L 410,445 Z" fill="currentColor" />
+                {/* Center Gold Chevron */}
+                <path d="M 290,335 L 348,430 L 315,430 L 290,390 L 265,430 L 232,430 Z" fill="url(#app-gold)" />
+              </svg>
               <div>
                 <span className="font-bold tracking-tight text-zinc-100 text-sm group-hover:text-brand-gold transition-colors">
                   {lang === 'ar' ? 'بيلد فلو الخليج' : 'BuildFlow GCC'}
@@ -301,135 +325,145 @@ export default function App() {
 
       {/* Primary Dynamic Main Content Render Frame */}
       <main className="flex-grow py-6 relative">
-        <div className="transition-opacity duration-300">
-          
-          {activeTab === "landing" && (
-            <LandingPage
-              lang={lang}
-              onNavigate={setActiveTab}
-              onSelectRole={(role) => {
-                setActiveRole(role);
-                // Trigger auto kyc pre-fill to verify capabilities easily
-                if (!kycDetails) {
-                  setKycDetails({
-                    companyName: `${role === "Client" ? "Al-Maktoum Asset Holdings L.L.C" : role === "Consultant" ? "Edge Architects" : "Gulf Builders Syndicate LLC"}`,
-                    tradeLicenseNumber: "CN-984422-R",
-                    dedLicensingAuthority: "DED Dubai",
-                    registrationStep: 4,
-                    role: role as any,
-                    licenseFile: "attested_trade_registry.pdf",
-                    status: "Approved"
-                  });
-                }
-              }}
-            />
-          )}
+        <Suspense fallback={
+          <div className="flex flex-col items-center justify-center py-24 px-4 min-h-[50vh] space-y-4">
+            <div className="h-10 w-10 border-2 border-gold/40 border-t-[#C8973A] rounded-full animate-spin" />
+            <div className="text-center space-y-1 select-none">
+              <p className="text-xs font-mono text-gold uppercase tracking-widest animate-pulse font-bold">Initializing Sovereign Node...</p>
+              <p className="text-[10px] text-zinc-500 font-mono">Loading regional encrypted parameters...</p>
+            </div>
+          </div>
+        }>
+          <div className="transition-opacity duration-300">
+            
+            {activeTab === "landing" && (
+              <LandingPage
+                lang={lang}
+                onNavigate={setActiveTab}
+                onSelectRole={(role) => {
+                  setActiveRole(role);
+                  // Trigger auto kyc pre-fill to verify capabilities easily
+                  if (!kycDetails) {
+                    setKycDetails({
+                      companyName: `${role === "Client" ? "Al-Maktoum Asset Holdings L.L.C" : role === "Consultant" ? "Edge Architects" : "Gulf Builders Syndicate LLC"}`,
+                      tradeLicenseNumber: "CN-984422-R",
+                      dedLicensingAuthority: "DED Dubai",
+                      registrationStep: 4,
+                      role: role as any,
+                      licenseFile: "attested_trade_registry.pdf",
+                      status: "Approved"
+                    });
+                  }
+                }}
+              />
+            )}
 
-          {activeTab === "solutions" && (
-            <SolutionsPage 
-              lang={lang}
-              onNavigate={setActiveTab}
-              onSelectRole={(role) => {
-                setActiveRole(role);
-                if (!kycDetails) {
-                  setKycDetails({
-                    companyName: `${role === "Client" ? "Al-Maktoum Asset Holdings L.L.C" : role === "Consultant" ? "Edge Architects" : "Gulf Builders Syndicate LLC"}`,
-                    tradeLicenseNumber: "CN-984422-R",
-                    dedLicensingAuthority: "DED Dubai",
-                    registrationStep: 4,
-                    role: role as any,
-                    licenseFile: "attested_trade_registry.pdf",
-                    status: "Approved"
-                  });
-                }
-              }}
-            />
-          )}
+            {activeTab === "solutions" && (
+              <SolutionsPage 
+                lang={lang}
+                onNavigate={setActiveTab}
+                onSelectRole={(role) => {
+                  setActiveRole(role);
+                  if (!kycDetails) {
+                    setKycDetails({
+                      companyName: `${role === "Client" ? "Al-Maktoum Asset Holdings L.L.C" : role === "Consultant" ? "Edge Architects" : "Gulf Builders Syndicate LLC"}`,
+                      tradeLicenseNumber: "CN-984422-R",
+                      dedLicensingAuthority: "DED Dubai",
+                      registrationStep: 4,
+                      role: role as any,
+                      licenseFile: "attested_trade_registry.pdf",
+                      status: "Approved"
+                    });
+                  }
+                }}
+              />
+            )}
 
-          {activeTab === "resources" && (
-            <ResourcesPage 
-              lang={lang}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "resources" && (
+              <ResourcesPage 
+                lang={lang}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "register_kyc" && (
-            <KycRegister
-              onRegisterSuccess={handleRegisterSuccess}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "register_kyc" && (
+              <KycRegister
+                onRegisterSuccess={handleRegisterSuccess}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "client_dashboard" && (
-            <ClientDashboard
-              projects={projects}
-              auditLogs={auditLogs}
-              onNavigate={setActiveTab}
-              onSelectProject={setSelectedProjectId}
-            />
-          )}
+            {activeTab === "client_dashboard" && (
+              <ClientDashboard
+                projects={projects}
+                auditLogs={auditLogs}
+                onNavigate={setActiveTab}
+                onSelectProject={setSelectedProjectId}
+              />
+            )}
 
-          {activeTab === "consultant_dashboard" && (
-            <ConsultantDashboard
-              projects={projects}
-              quotations={quotations}
-              onNavigate={setActiveTab}
-              onOpenQuotationBuilder={() => setActiveTab("quotation_builder")}
-            />
-          )}
+            {activeTab === "consultant_dashboard" && (
+              <ConsultantDashboard
+                projects={projects}
+                quotations={quotations}
+                onNavigate={setActiveTab}
+                onOpenQuotationBuilder={() => setActiveTab("quotation_builder")}
+              />
+            )}
 
-          {activeTab === "contractor_dashboard" && (
-            <ContractorDashboard
-              bids={bids}
-              subInquiries={subInquiries}
-              onAddSubInquiry={handleAddSubInquiry}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "contractor_dashboard" && (
+              <ContractorDashboard
+                bids={bids}
+                subInquiries={subInquiries}
+                onAddSubInquiry={handleAddSubInquiry}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "supplier_dashboard" && (
-            <SupplierDashboard
-              products={products}
-              subInquiries={subInquiries}
-              onAddCatalogItem={handleAddCatalogItem}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "supplier_dashboard" && (
+              <SupplierDashboard
+                products={products}
+                subInquiries={subInquiries}
+                onAddCatalogItem={handleAddCatalogItem}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "project_detail" && (
-            <ProjectDetail
-              project={selectedProjObject}
-              initialChat={mockChats[selectedProjObject.id as keyof typeof mockChats] || mockChats["PJ-2024-089"]}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "project_detail" && (
+              <ProjectDetail
+                project={selectedProjObject}
+                initialChat={mockChats[selectedProjObject.id as keyof typeof mockChats] || mockChats["PJ-2024-089"]}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "compare_quotations" && (
-            <CompareQuotations
-              quotations={quotations}
-              onNavigate={setActiveTab}
-            />
-          )}
+            {activeTab === "compare_quotations" && (
+              <CompareQuotations
+                quotations={quotations}
+                onNavigate={setActiveTab}
+              />
+            )}
 
-          {activeTab === "quotation_builder" && (
-            <QuotationBuilder
-              onNavigate={setActiveTab}
-              onSaveQuotationFinished={handleSaveQuotationFinished}
-            />
-          )}
+            {activeTab === "quotation_builder" && (
+              <QuotationBuilder
+                onNavigate={setActiveTab}
+                onSaveQuotationFinished={handleSaveQuotationFinished}
+              />
+            )}
 
-          {activeTab === "create_project" && (
-            <CreateProject
-              onNavigate={setActiveTab}
-              onAddProjectFinished={handleAddProject}
-            />
-          )}
+            {activeTab === "create_project" && (
+              <CreateProject
+                onNavigate={setActiveTab}
+                onAddProjectFinished={handleAddProject}
+              />
+            )}
 
-          {activeTab === "api_console" && (
-            <ApiConsole />
-          )}
+            {activeTab === "api_console" && (
+              <ApiConsole lang={lang} />
+            )}
 
-        </div>
+          </div>
+        </Suspense>
       </main>
 
       {/* Premium Footer */}

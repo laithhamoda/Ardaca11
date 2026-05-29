@@ -94,17 +94,32 @@ export const Footer: React.FC<FooterProps> = ({ lang = 'en' }) => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-12 border-b border-zinc-900/40">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              {lang === 'ar' ? (
-                <div className="h-7 w-7 bg-[#C8973A] rounded-lg flex items-center justify-center text-[#0B1F3A] font-sans font-extrabold text-sm shadow-md border border-[#0B1F3A]/10 select-none">
-                  أ
-                </div>
-              ) : (
-                <svg className="h-7 w-7 text-[#C8973A]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="100" height="100" rx="16" fill="#C8973A" />
-                  <path d="M30 70V30H45C55 30 62 36 62 46C62 53 57 58 50 59L65 70H52L39 60H30V70H20 Z" fill="#0B1F3A" />
-                  <circle cx="80" cy="24" r="6" fill="#0B1F3A" />
-                </svg>
-              )}
+              <svg 
+                className="h-8 w-8 text-white transition-transform duration-300 group-hover:scale-105 shrink-0" 
+                viewBox="0 0 500 500" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="footer-gold" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#A3712C" />
+                    <stop offset="30%" stopColor="#E4BA68" />
+                    <stop offset="70%" stopColor="#F5D996" />
+                    <stop offset="100%" stopColor="#C2913F" />
+                  </linearGradient>
+                </defs>
+                {/* 4 Gold Pillars */}
+                <path d="M 115,370 L 115,250 L 145,195 L 145,370 Z" fill="url(#footer-gold)" />
+                <path d="M 165,320 L 165,190 L 195,135 L 195,320 Z" fill="url(#footer-gold)" />
+                <path d="M 215,270 L 215,130 L 245,75 L 245,270 Z" fill="url(#footer-gold)" />
+                <path d="M 263,260 L 263,70 L 295,15 L 295,260 Z" fill="url(#footer-gold)" />
+                {/* Navy Swirl styled in White for high contrast on dark footer background */}
+                <path d="M 30,460 C 130,420 220,330 312,272 C 255,275 220,290 190,320 C 150,360 100,410 30,460 Z" fill="currentColor" />
+                {/* Navy Right Leg styled in White */}
+                <path d="M 312,135 L 365,135 L 475,445 L 410,445 Z" fill="currentColor" />
+                {/* Center Gold Chevron */}
+                <path d="M 290,335 L 348,430 L 315,430 L 290,390 L 265,430 L 232,430 Z" fill="url(#footer-gold)" />
+              </svg>
               <h3 className="font-extrabold text-white text-lg tracking-tight uppercase">
                 Ardaca BuildFlow
               </h3>

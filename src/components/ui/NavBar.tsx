@@ -139,23 +139,32 @@ export const NavBar: React.FC<NavBarProps> = ({
                 }}
               >
                 {/* Custom Styled Inline Svg Logo Icon */}
-                {currentLang === 'ar' ? (
-                  <div className="h-8 w-8 bg-[#0B1F3A] rounded-xl flex items-center justify-center text-[#C8973A] font-sans font-extrabold text-lg shadow-md border border-[#C8973A]/25 select-none transition-transform duration-300 group-hover:scale-105">
-                    أ
-                  </div>
-                ) : (
-                  <svg 
-                    className="h-8 w-8 text-[#0B1F3A] transition-transform duration-300 group-hover:scale-105" 
-                    viewBox="0 0 100 100" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="100" height="100" rx="16" fill="#0B1F3A" />
-                    <path d="M30 70V30H45C55 30 62 36 62 46C62 53 57 58 50 59L65 70H52L39 60H30V70H20 Z" fill="#C8973A" />
-                    <path d="M30 50H44C49 50 52 48 52 44C52 40 49 38 44 38H30V50Z" fill="white" />
-                    <circle cx="80" cy="24" r="6" fill="#C8973A" />
-                  </svg>
-                )}
+                <svg 
+                  className="h-9 w-9 text-[#0B1F3A] transition-transform duration-300 group-hover:scale-105 shrink-0" 
+                  viewBox="0 0 500 500" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="navbar-gold" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#A3712C" />
+                      <stop offset="30%" stopColor="#E4BA68" />
+                      <stop offset="70%" stopColor="#F5D996" />
+                      <stop offset="100%" stopColor="#C2913F" />
+                    </linearGradient>
+                  </defs>
+                  {/* 4 Gold Pillars */}
+                  <path d="M 115,370 L 115,250 L 145,195 L 145,370 Z" fill="url(#navbar-gold)" />
+                  <path d="M 165,320 L 165,190 L 195,135 L 195,320 Z" fill="url(#navbar-gold)" />
+                  <path d="M 215,270 L 215,130 L 245,75 L 245,270 Z" fill="url(#navbar-gold)" />
+                  <path d="M 263,260 L 263,70 L 295,15 L 295,260 Z" fill="url(#navbar-gold)" />
+                  {/* Navy Swirl */}
+                  <path d="M 30,460 C 130,420 220,330 312,272 C 255,275 220,290 190,320 C 150,360 100,410 30,460 Z" fill="currentColor" />
+                  {/* Navy Right Leg */}
+                  <path d="M 312,135 L 365,135 L 475,445 L 410,445 Z" fill="currentColor" />
+                  {/* Center Gold Chevron */}
+                  <path d="M 290,335 L 348,430 L 315,430 L 290,390 L 265,430 L 232,430 Z" fill="url(#navbar-gold)" />
+                </svg>
                 <div className="flex flex-col">
                   <span className="font-sans font-extrabold text-[#0B1F3A] tracking-tight text-xl leading-none">
                     {translations.brandName}
