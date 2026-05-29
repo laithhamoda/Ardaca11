@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Ardaca Color System CSS Variables */
+  --color-navy: #0B1F3A;
+  --color-gold: #C8973A;
+  --color-slate: #4A5568;
+  --color-light-gray: #F7F9FC;
+  --color-mid-gray: #E2E8F0;
+  --color-dark-gray: #2D3748;
+  --color-accent: #1A56A0;
+
+  /* Custom Spacing Base (8px scale) Variables */
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-6: 48px;
+  --spacing-8: 64px;
+  --spacing-12: 96px;
+
+  /* Custom Box Shadows Variables */
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-elevated: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-navbar: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  /* Custom Border Radius Variables */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+@theme {
+  /* Tailwind Configuration Map matching requested tokens */
+  --color-navy: var(--color-navy);
+  --color-gold: var(--color-gold);
+  --color-slate: var(--color-slate);
+  --color-lightGray: var(--color-light-gray);
+  --color-midGray: var(--color-mid-gray);
+  --color-darkGray: var(--color-dark-gray);
+  --color-accent: var(--color-accent);
+
+  --font-sans: "Inter", "IBM Plex Sans Arabic", sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Inter", sans-serif;
+
+  --spacing-1: var(--spacing-1);
+  --spacing-2: var(--spacing-2);
+  --spacing-3: var(--spacing-3);
+  --spacing-4: var(--spacing-4);
+  --spacing-6: var(--spacing-6);
+  --spacing-8: var(--spacing-8);
+  --spacing-12: var(--spacing-12);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
+  --shadow-navbar: var(--shadow-navbar);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+/* Smooth scrolling for elegant product navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base body styles for premium GCC audience visual styling */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-light-gray);
+  color: var(--color-dark-gray);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL context class to support Arabic native reading order natively in layout structures */
+.rtl {
+  direction: rtl;
+  font-family: var(--font-arabic);
+}

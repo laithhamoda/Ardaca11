@@ -1,0 +1,6 @@
+{
+  "name": "Ardaca.com",
+  "description": "UAE Construction Procurement Ecosystem. High-end minimalist dashboard with private stakeholder portals, audited messaging, privacy walls, robust GCC solutions pages, and TAMM-integrated compliance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
