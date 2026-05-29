@@ -230,7 +230,7 @@ export default function ResourcesPage({ lang = 'en', onNavigate }: ResourcesPage
               }`}
             >
               <Briefcase size={11} />
-              <span>{isRtl ? 'ورقة المستثمر (١)' : 'VC One-Pager'}</span>
+              <span>{isRtl ? 'بوابة المستثمر والثقة' : 'Investor & Trust'}</span>
             </button>
             <button
               id="partnership_main_tab_button"
